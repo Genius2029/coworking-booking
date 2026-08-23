@@ -1,4 +1,5 @@
 from fastapi import APIRouter , Depends
+from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.database import get_session
@@ -21,3 +22,10 @@ async def create_workspace(coworking_id: int, data: WorkspaceCreate, session: As
     await session.commit()
     await session.refresh(new_workspace)
     return new_workspace
+
+@router.get("/workspaces")
+async def get_all_workspaces(session: AsyncSession = Depends(get_session)):
+    query = select(Workspace)
+    result = await session.execute(query)
+    workspaces = result.scalars().all()
+    return workspaces

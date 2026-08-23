@@ -3,3 +3,5 @@ uvicorn
 sqlmodel
 asyncpg
 python-dotenv
+passlib
+python-jose

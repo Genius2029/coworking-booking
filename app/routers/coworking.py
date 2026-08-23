@@ -1,4 +1,5 @@
 from datetime import datetime
+from sqlmodel import select
 from fastapi import APIRouter , Depends
 from sqlmodel.ext.asyncio.session import AsyncSession
 
@@ -23,3 +24,9 @@ async def create_coworking(data: CoworkingCreate, session: AsyncSession = Depend
     await session.refresh(new_coworking)
     return new_coworking
 
+@router.get("/coworkings")
+async def get_all_coworkings(session: AsyncSession = Depends(get_session)):
+    query = select(Coworking)
+    result = await session.execute(query)
+    coworkings = result.scalars().all()
+    return coworkings
