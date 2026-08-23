@@ -5,3 +5,9 @@ class UserCreate(BaseModel):
     full_name: str 
     password: str
     role: str
+
+class UserRead(BaseModel):
+    id: int
+    email: str
+    full_name: str
+    role: str
