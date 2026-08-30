@@ -20,6 +20,10 @@ async def create_booking(
     session: AsyncSession = Depends(get_session),
     current_user: User = Depends(get_current_user)
 ):
+    
+    if data.start_time >= data.end_time:
+        raise HTTPException(status_code=400, detail="The start time must be earlier than the end time")
+    
     query = select(Booking).where(
         Booking.workspace_id == workspace_id,
         Booking.start_time < data.end_time,
@@ -42,3 +46,36 @@ async def create_booking(
     await session.commit()
     await session.refresh(new_booking)
     return new_booking
+
+@router.get("/bookings")
+async def get_all_bookings(current_user: User = Depends(get_current_user), session = Depends(get_session)):
+    query = select(Booking).where(
+        Booking.user_id == current_user.id,
+    )
+    result = await session.execute(query)
+    bookings = result.scalars().all()
+    return bookings
+
+@router.patch("/bookings/{booking_id}/cancel")
+async def cancel_bookings(
+    booking_id: int,
+    session: AsyncSession = Depends(get_session),
+    current_user: User = Depends(get_current_user)
+):
+    query = select(Booking).where(Booking.id == booking_id)
+    result = await session.execute(query)
+    booking = result.first()
+
+    if not booking:
+        raise HTTPException(status_code=404, detail="It's not finded")
+
+    booking = booking[0]
+
+    if booking.user_id != current_user.id:
+        raise HTTPException(status_code=403, detail="It's not your booking")
+
+    booking.status = "cancelled"
+    session.add(booking)
+    await session.commit()
+    await session.refresh(booking)
+    return booking

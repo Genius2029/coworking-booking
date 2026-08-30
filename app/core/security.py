@@ -10,7 +10,12 @@ from jose import jwt
 from app.database import get_session
 from app.models.user import User
 
-SECRET_KEY = "eblan3000anigilator"
+import os
+from dotenv import load_dotenv
+
+load_dotenv
+
+SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
