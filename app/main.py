@@ -13,6 +13,7 @@ from app.routers.user import router as user_router
 from app.routers.coworking import router as coworking_router
 from app.routers.workspace import router as workspace_router
 from app.routers.booking import router as booking_router
+from app.routers.ai import router as ai_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -26,6 +27,7 @@ app.include_router(user_router)#register/login router
 app.include_router(coworking_router)
 app.include_router(workspace_router)
 app.include_router(booking_router)
+app.include_router(ai_router)
 
 @app.get("/")
 def root():

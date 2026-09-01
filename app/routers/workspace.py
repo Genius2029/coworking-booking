@@ -16,7 +16,8 @@ async def create_workspace(coworking_id: int, data: WorkspaceCreate, session: As
         name=data.name,
         type=data.type,
         price_per_hour=data.price_per_hour,
-        capacity=data.capacity
+        capacity=data.capacity,
+        description=data.description
     )
     session.add(new_workspace)
     await session.commit()

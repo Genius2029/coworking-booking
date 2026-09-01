@@ -7,3 +7,4 @@ class Workspace(SQLModel, table=True):
     type: str
     price_per_hour: float
     capacity: int
+    description: str

@@ -5,3 +5,4 @@ class WorkspaceCreate(BaseModel):
     type: str
     price_per_hour: float
     capacity: int
+    description: str
