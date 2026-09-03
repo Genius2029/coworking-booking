@@ -30,3 +30,5 @@ A backend service for booking coworking spaces and workspaces (desks, meeting ro
 3. `pip install -r requirements.txt`
 4. `python -m uvicorn app.main:app --reload`
 5. Open `http://127.0.0.1:8000/docs` for interactive API docs
+
+🔗 **Live demo:** https://coworking-booking-production-5b9d.up.railway.app/docs
